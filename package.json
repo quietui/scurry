@@ -1,0 +1,47 @@
+{
+  "name": "@quietui/scurry",
+  "description": "Animations, easings, and utilities for use with the Web Animations API.",
+  "version": "1.0.0",
+  "homepage": "https://github.com/quietui/scurry",
+  "author": "Cory LaViska",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rimraf dist",
+    "prettier": "prettier --check --log-level=warn .",
+    "prettier:fix": "prettier --write --log-level=warn ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quietui/scurry.git"
+  },
+  "bugs": {
+    "url": "https://github.com/quietui/scurry/issues"
+  },
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/sponsors/quietui"
+  },
+  "files": [
+    "dist/"
+  ],
+  "keywords": [
+    "animation",
+    "web animations api",
+    "animate.css"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "@types/prettier": "^3.0.0",
+    "prettier": "^3.3.3",
+    "prettier-plugin-css-order": "^2.1.2",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "rimraf": "^6.0.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
