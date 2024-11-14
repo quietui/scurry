@@ -178,7 +178,7 @@ Runs a Web Animation on an element, canceling any existing animations immediatel
 
   const box = document.getElementById('box');
 
-  animate(el, flip, {
+  animate(box, flip, {
     duration: 1500,
     iterations: Infinity,
     easing: easeInSine
@@ -219,7 +219,7 @@ Applies a class to the specified element to animate it. The class is removed aft
 
   const box = document.getElementById('box');
 
-  animateWithClass(el, 'bounce').then(() => {
+  animateWithClass(box, 'bounce').then(() => {
     // The animation has finished
   });
 </script>
