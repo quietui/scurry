@@ -168,6 +168,14 @@ Two animation functions are included in the library for convenience.
 
 Runs a Web Animation on an element, canceling any existing animations immediately. Returns a promise that resolves when the animation completes gets canceled.
 
+To import this function:
+
+```ts
+import animate from '@quietui/scurry/dist/utilities/animate.js';
+```
+
+Example:
+
 ```html
 <div id="box" style="display: block; width: 100px; height: 100px; background: tomato; margin: 2rem;"></div>
 
@@ -191,6 +199,14 @@ Runs a Web Animation on an element, canceling any existing animations immediatel
 ### `animateWithClass()`
 
 Applies a class to the specified element to animate it. The class is removed after the animation finishes or is canceled, then the promise resolves. If applying the class doesn't trigger an animation, the promise resolves immediately.
+
+To import this function:
+
+```ts
+import animateWithClass from '@quietui/scurry/dist/utilities/animate-with-class.js';
+```
+
+Example:
 
 ```html
 <div id="box" style="display: block; width: 100px; height: 100px; background: tomato; margin: 2rem;"></div>
