@@ -15,7 +15,7 @@ npm install @quietui/scurry
 To import an animation:
 
 ```js
-import tada from '@quietui/scurry/dist/animations/tada.js';
+import { tada } from '@quietui/scurry';
 ```
 
 <details>
@@ -127,7 +127,7 @@ import tada from '@quietui/scurry/dist/animations/tada.js';
 To import an easing:
 
 ```js
-import easeInOut from '@quietui/scurry/dist/easings/ease-in-out.js';
+import { easeInOut } from '@quietui/scurry';
 ```
 
 <details>
@@ -166,12 +166,12 @@ Two animation functions are included in the library for convenience.
 
 ### `animate()`
 
-Runs a Web Animation on an element, canceling any existing animations immediately. Returns a promise that resolves when the animation completes gets canceled.
+Runs a Web Animation on an element, canceling any existing animations immediately. Returns a promise that resolves when the animation finishes or is canceled.
 
 To import this function:
 
 ```ts
-import animate from '@quietui/scurry/dist/utilities/animate.js';
+import { animate } from '@quietui/scurry';
 ```
 
 Example:
@@ -180,9 +180,7 @@ Example:
 <div id="box" style="display: block; width: 100px; height: 100px; background: tomato; margin: 2rem;"></div>
 
 <script type="module">
-  import animate from '@quietui/scurry/dist/utilities/animate.js';
-  import flip from '@quietui/scurry/dist/animations/flip.js';
-  import easeInSine from '@quietui/scurry/dist/easings/ease-in-sine.js';
+  import { animate, flip, easeInSine } from '@quietui/scurry';
 
   const box = document.getElementById('box');
 
@@ -203,7 +201,7 @@ Applies a class to the specified element to animate it. The class is removed aft
 To import this function:
 
 ```ts
-import animateWithClass from '@quietui/scurry/dist/utilities/animate-with-class.js';
+import { animateWithClass } from '@quietui/scurry';
 ```
 
 Example:
@@ -231,7 +229,7 @@ Example:
 </style>
 
 <script type="module">
-  import animateWithClass from '@quietui/scurry/dist/utilities/animate-with-class.js';
+  import { animateWithClass } from '@quietui/scurry';
 
   const box = document.getElementById('box');
 
@@ -249,8 +247,8 @@ To animate an element directly with the Web Animations API:
 <div id="box" style="display: block; width: 100px; height: 100px; background: tomato; margin: 2rem;"></div>
 
 <script type="module">
-  import flip from '@quietui/scurry/dist/animations/flip.js';
-  import easeInSine from '@quietui/scurry/dist/easings/ease-in-sine.js';
+  import { flip } from '@quietui/scurry';
+  import { easeInSine } from '@quietui/scurry';
 
   const box = document.getElementById('box');
 
