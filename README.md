@@ -77,7 +77,7 @@ import { tada } from '@quietui/scurry';
     <li>hinge</li>
     <li>jack-in-the-box</li>
     <li>jello</li>
-    <li>LICENSE light-speed-in-left</li>
+    <li>light-speed-in-left</li>
     <li>light-speed-in-right</li>
     <li>light-speed-out-left</li>
     <li>light-speed-out-right</li>
