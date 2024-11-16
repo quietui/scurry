@@ -9,15 +9,6 @@
   "module": "dist/index.js",
   "type": "module",
   "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./animations/*": "./animations/*",
-    "./easings/*": "./easings/*",
-    "./utilities/*": "./utilities/*"
-  },
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",
