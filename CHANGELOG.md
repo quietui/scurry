@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.1
+
+- Republish due to maintainer error 🙃
+
 ## 3.0.0
 
 - Updated exports to work better with browsers and to make a more consistent UX with npm
