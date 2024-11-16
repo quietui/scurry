@@ -3,61 +3,27 @@
  * when the animation completes gets canceled.
  */
 export function animate(
-  element: HTMLElement,
+  el: Element,
   keyframes: Keyframe[] | PropertyIndexedKeyframes,
   options: KeyframeAnimationOptions
 ): Promise<void> {
-  // Cancel existing animations
-  element.getAnimations().forEach(animation => animation.cancel());
+  return new Promise(resolve => {
+    // Stop existing animations
+    el.getAnimations().forEach(animation => animation.cancel());
 
-  // Create abort controller for cleanup
-  const abortController = new AbortController();
-  const { signal } = abortController;
+    requestAnimationFrame(() => {
+      // Start the new animation
+      const animation = el.animate(keyframes, options);
 
-  return new Promise<void>(resolve => {
-    const animation = element.animate(keyframes, options);
+      // Listen for finish/cancel to guarantee it resolves
+      const handleComplete = () => {
+        animation.removeEventListener('finish', handleComplete);
+        animation.removeEventListener('cancel', handleComplete);
+        resolve();
+      };
 
-    // When the animation completes
-    element.addEventListener(
-      'animationend',
-      () => {
-        try {
-          abortController.abort();
-        } finally {
-          resolve();
-        }
-      },
-      { signal }
-    );
-
-    // When the animation gets canceled
-    element.addEventListener(
-      'animationcancel',
-      () => {
-        try {
-          abortController.abort();
-        } finally {
-          resolve();
-        }
-      },
-      { signal }
-    );
-
-    // Handle cases where the animation might end without firing events
-    animation.finished
-      .then(() => {
-        try {
-          abortController.abort();
-        } finally {
-          resolve();
-        }
-      })
-      .catch(error => {
-        try {
-          abortController.abort();
-        } finally {
-          resolve();
-        }
-      });
+      animation.addEventListener('finish', handleComplete);
+      animation.addEventListener('cancel', handleComplete);
+    });
   });
 }

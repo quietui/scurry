@@ -3,37 +3,29 @@
  * canceled, then the promise resolves. If applying the class doesn't trigger an animation, the promise resolves
  * immediately.
  */
-export function animateWithClass(el: Element, className: string) {
+export function animateWithClass(el: Element, className: string): Promise<void> {
   return new Promise<void>(resolve => {
     const controller = new AbortController();
+    const { signal } = controller;
+    const handleFinish = () => cleanup();
+
+    const cleanup = () => {
+      controller.abort();
+      el.classList.remove(className);
+      resolve();
+    };
 
     el.classList.add(className);
 
-    // If no animations are queued after adding the class, there's nothing to do
-    if (el.getAnimations().length === 0) {
-      resolve();
-    }
+    // Need to check after a microtask to ensure animations are registered
+    queueMicrotask(() => {
+      if (el.getAnimations().length === 0) {
+        cleanup();
+        return;
+      }
 
-    // Wait for the animation to end
-    el.addEventListener(
-      'animationend',
-      () => {
-        el.classList.remove(className);
-        controller.abort();
-        resolve();
-      },
-      { once: true }
-    );
-
-    // If the animation is canceled, abort and resolve
-    el.addEventListener(
-      'animationcancel',
-      () => {
-        el.classList.remove(className);
-        controller.abort();
-        resolve();
-      },
-      { once: true, signal: controller.signal }
-    );
+      el.addEventListener('animationend', handleFinish, { once: true, signal });
+      el.addEventListener('animationcancel', handleFinish, { once: true, signal });
+    });
   });
 }
