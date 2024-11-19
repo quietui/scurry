@@ -15,7 +15,14 @@ npm install @quietui/scurry
 To import an animation:
 
 ```js
-import { tada } from '@quietui/scurry/dist/animations/tada.js';
+import { tada } from '@quietui/scurry';
+```
+
+**Note:** if you're importing directly from a browser, use the full path to prevent the entire library from loading. Make sure to replace `@quiet/scurry` with the path to the library, either a CDN or a local folder.
+
+```js
+import { tada } from '/path/to/scurry/dist/animations/tada.js';
+import { easeInOut } from '/path/to/scurry/dist/easings/ease-in-out.js';
 ```
 
 <details>
@@ -127,7 +134,7 @@ import { tada } from '@quietui/scurry/dist/animations/tada.js';
 To import an easing:
 
 ```js
-import { easeInOut } from '@quietui/scurry/dist/easings/ease-in-out.js';
+import { easeInOut } from '@quietui/scurry';
 ```
 
 <details>
@@ -164,23 +171,18 @@ import { easeInOut } from '@quietui/scurry/dist/easings/ease-in-out.js';
 
 To animate an element directly with the Web Animations API:
 
-```html
-<div id="box" style="display: block; width: 100px; height: 100px; background: tomato; margin: 2rem;"></div>
+```js
+import { flip, easeInSine } from '@quietui/scurry';
 
-<script type="module">
-  import { flip } from '@quietui/scurry/dist/animations/flip.js';
-  import { easeInSine } from '@quietui/scurry/easings/ease-in-since.js';
+const el = document.getElementById('my-element');
 
-  const box = document.getElementById('box');
-
-  box.animate(flip, {
-    duration: 1500,
-    iterations: Infinity,
-    easing: easeInSine
-  });
-</script>
+el.animate(flip, {
+  duration: 1500,
+  iterations: Infinity,
+  easing: easeInSine
+});
 ```
 
 ## Attribution
 
-- Animations are based on the great [Animate.css](https://animate.style/) library.
+- Animations are based on the timeless [Animate.css](https://animate.style/) library.

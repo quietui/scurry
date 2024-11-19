@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.1.0
+
+- Add barrel file for exports for DX
+- Add `isAnimating()` and `stopAnimations()` utilities
+
 ## 3.0.2
 
 - Refactor functions

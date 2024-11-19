@@ -1,29 +1,29 @@
+import { stopAnimations } from './stop-animations.js';
+
 /**
  * Runs a Web Animation on an element, canceling any existing animations immediately. Returns a promise that resolves
  * when the animation completes gets canceled.
  */
-export function animate(
-  el: Element,
-  keyframes: Keyframe[] | PropertyIndexedKeyframes,
+export async function animate(
+  el: HTMLElement,
+  keyframes: Keyframe[],
   options: KeyframeAnimationOptions
 ): Promise<void> {
+  // Stop existing animations
+  await stopAnimations(el);
+
+  // Start the new one
+  const animation = el.animate(keyframes, options);
+
+  // Return after finish/cancel and always resolve
   return new Promise(resolve => {
-    // Stop existing animations
-    el.getAnimations().forEach(animation => animation.cancel());
+    const finishHandler = () => {
+      animation.removeEventListener('finish', finishHandler);
+      animation.removeEventListener('cancel', finishHandler);
+      resolve();
+    };
 
-    requestAnimationFrame(() => {
-      // Start the new animation
-      const animation = el.animate(keyframes, options);
-
-      // Listen for finish/cancel to guarantee it resolves
-      const handleComplete = () => {
-        animation.removeEventListener('finish', handleComplete);
-        animation.removeEventListener('cancel', handleComplete);
-        resolve();
-      };
-
-      animation.addEventListener('finish', handleComplete);
-      animation.addEventListener('cancel', handleComplete);
-    });
+    animation.addEventListener('finish', finishHandler);
+    animation.addEventListener('cancel', finishHandler);
   });
 }
