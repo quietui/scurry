@@ -1,7 +1,7 @@
 {
   "name": "@quietui/scurry",
   "description": "Animations, easings, and utilities for use with the Web Animations API.",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "homepage": "https://github.com/quietui/scurry",
   "author": "Cory LaViska",
   "license": "MIT",
