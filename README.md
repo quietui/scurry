@@ -1,6 +1,6 @@
-# Scurry
+# Scurry Animations
 
-Animations, easings, and utilities for use with the Web Animations API.
+Scurry provides unique animations designed for use with the [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API). These animations are ideal for enter and exit transitions, but work great in many other scenarios as well. Each animation ships with enter and exit keyframes and recommended easings for each transition.
 
 Built for [Quiet UI](https://quietui.org/).
 
@@ -12,177 +12,62 @@ npm install @quietui/scurry
 
 ## Importing animations
 
-To import an animation:
+**To import an animation using a bundler:**
 
 ```js
-import { tada } from '@quietui/scurry';
+import { drift, elevator, glitch } from '@quietui/scurry';
 ```
 
-**Note:** if you're importing directly from a browser, use the full path to prevent the entire library from loading. Make sure to replace `@quiet/scurry` with the path to the library, either a CDN or a local folder.
+**To import an animation using a browser,** use the full path for each animation. Importing `index.js` will force the browser to load every animation in the library. Make sure to adjust the path to wherever the library is being hosted.
 
 ```js
-import { tada } from '/path/to/scurry/dist/animations/tada.js';
-import { easeInOut } from '/path/to/scurry/dist/easings/ease-in-out.js';
+import { drift } from '/dist/animations/drift.js';
+import { elevator } from '/dist/animations/elevator.js';
+import { glitch } from '/dist/animations/glitch.js';
 ```
 
-<details>
-  <summary>Show all available animations</summary>
-  <ul>
-    <li>back-in-down</li>
-    <li>back-in-left</li>
-    <li>back-in-right</li>
-    <li>back-in-up</li>
-    <li>back-out-down</li>
-    <li>back-out-left</li>
-    <li>back-out-right</li>
-    <li>back-out-up</li>
-    <li>bounce-in-down</li>
-    <li>bounce-in-left</li>
-    <li>bounce-in-right</li>
-    <li>bounce-in-up</li>
-    <li>bounce-in</li>
-    <li>bounce-out-down</li>
-    <li>bounce-out-left</li>
-    <li>bounce-out-right</li>
-    <li>bounce-out-up</li>
-    <li>bounce-out</li>
-    <li>bounce</li>
-    <li>fade-in-bottom-left</li>
-    <li>fade-in-bottom-right</li>
-    <li>fade-in-down-big</li>
-    <li>fade-in-down</li>
-    <li>fade-in-left-big</li>
-    <li>fade-in-left</li>
-    <li>fade-in-right-big</li>
-    <li>fade-in-right</li>
-    <li>fade-in-top-left</li>
-    <li>fade-in-top-right</li>
-    <li>fade-in-up-big</li>
-    <li>fade-in-up</li>
-    <li>fade-in</li>
-    <li>fade-out-bottom-left</li>
-    <li>fade-out-bottom-right</li>
-    <li>fade-out-down-big</li>
-    <li>fade-out-down</li>
-    <li>fade-out-left-big</li>
-    <li>fade-out-left</li>
-    <li>fade-out-right-big</li>
-    <li>fade-out-right</li>
-    <li>fade-out-top-left</li>
-    <li>fade-out-top-right</li>
-    <li>fade-out-up-big</li>
-    <li>fade-out-up</li>
-    <li>fade-out</li>
-    <li>flash</li>
-    <li>flip-in-x</li>
-    <li>flip-in-y</li>
-    <li>flip-out-x</li>
-    <li>flip-out-y</li>
-    <li>flip</li>
-    <li>head-shake</li>
-    <li>heart-beat</li>
-    <li>hinge</li>
-    <li>jack-in-the-box</li>
-    <li>jello</li>
-    <li>light-speed-in-left</li>
-    <li>light-speed-in-right</li>
-    <li>light-speed-out-left</li>
-    <li>light-speed-out-right</li>
-    <li>pulse</li>
-    <li>roll-in</li>
-    <li>roll-out</li>
-    <li>rotate-in-down-left</li>
-    <li>rotate-in-down-right</li>
-    <li>rotate-in-up-left</li>
-    <li>rotate-in-up-right</li>
-    <li>rotate-in</li>
-    <li>rotate-out-down-left</li>
-    <li>rotate-out-down-right</li>
-    <li>rotate-out-up-left</li>
-    <li>rotate-out-up-right</li>
-    <li>rotate-out</li>
-    <li>rubber-band</li>
-    <li>shake-x</li>
-    <li>shake-y</li>
-    <li>shake</li>
-    <li>slide-in-down</li>
-    <li>slide-in-left</li>
-    <li>slide-in-right</li>
-    <li>slide-in-up</li>
-    <li>slide-out-down</li>
-    <li>slide-out-left</li>
-    <li>slide-out-right</li>
-    <li>slide-out-up</li>
-    <li>swing</li>
-    <li>tada</li>
-    <li>wobble</li>
-    <li>zoom-in-down</li>
-    <li>zoom-in-left</li>
-    <li>zoom-in-right</li>
-    <li>zoom-in-up</li>
-    <li>zoom-in</li>
-    <li>zoom-out-down</li>
-    <li>zoom-out-left</li>
-    <li>zoom-out-right</li>
-    <li>zoom-out-up</li>
-    <li>zoom-out</li>
-  </ul>
-</details>
+To see a complete list of animations, refer to [`src/animation-names.ts`](https://github.com/quietui/scurry/blob/main/src/animation-names.ts). If you want to use the public CDN, you can [browse the animations here](https://www.jsdelivr.com/package/npm/@quietui/scurry?tab=files&path=dist%2Fanimations).
 
-## Importing easings
+## Enter and exit animations
 
-To import an easing:
+To get the keyframes and easings for each animation, call the function you just imported. An optional argument lets you choose the animation's directionality. To apply the animation, use the [`Element.animate()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/animate) method.
 
-```js
-import { easeInOut } from '@quietui/scurry';
+```ts
+import { tornado } from '@quietui/scurry';
+
+const box = document.getElementById('box');
+const { enter, exit } = tornado({ dir: 'ltr' });
+
+// Animate in
+await box.animate(enter.keyframes, {
+  easing: enter.easing,
+  duration: 1500
+}).finished;
+
+// Animate out
+await box.animate(exit.keyframes, {
+  easing: exit.easing,
+  duration: 1500
+}).finished;
+
+// The animations have finished!
 ```
 
-<details>
-  <summary>Show all available easings</summary>
-  <ul>
-    <li>ease-in-sine</li>
-    <li>ease-out-sine</li>
-    <li>ease-in-out-sine</li>
-    <li>ease-in-quad</li>
-    <li>ease-out-quad</li>
-    <li>ease-in-out-quad</li>
-    <li>ease-in-cubic</li>
-    <li>ease-out-cubic</li>
-    <li>ease-in-out-cubic</li>
-    <li>ease-in-quart</li>
-    <li>ease-out-quart</li>
-    <li>ease-in-out-quart</li>
-    <li>ease-in-quint</li>
-    <li>ease-out-quint</li>
-    <li>ease-in-out-quint</li>
-    <li>ease-in-expo</li>
-    <li>ease-out-expo</li>
-    <li>ease-in-out-expo</li>
-    <li>ease-in-circ</li>
-    <li>ease-out-circ</li>
-    <li>ease-in-out-circ</li>
-    <li>ease-in-back</li>
-    <li>ease-out-back</li>
-    <li>ease-in-out-back</li>
-  </ul>  
-</details>
+## The animation manifest
 
-## Using with the Web Animations API
+In some cases, it might be useful to get a list of all animations provided by the library. You can use the manifest to get a list of all animations.
 
-To animate an element directly with the Web Animations API:
+```ts
+import { animations } from '@quietui/scurry/dist/manifest.js';
 
-```js
-import { flip, easeInSine } from '@quietui/scurry';
-
-const el = document.getElementById('my-element');
-
-el.animate(flip, {
-  duration: 1500,
-  iterations: Infinity,
-  easing: easeInSine
-});
+// Log every available animation
+for (const [name, details] of Object.entries(animations)) {
+  console.log(name, details.description, details.path);
+}
 ```
 
-## Attribution
+## Do you accept PRs?
 
-- Animations are based on the timeless [Animate.css](https://animate.style/) library.
+Yes! This library is designed to be expanded so pull requests are welcome. All submissions will be vetted for quality to make sure the animations are a good fit for the library. Even the best animations may require a few iteration cycles. Unfortunately, not all animations will be accepted.
+
+If you're not sure if an animation makes sense for this library, [open an issue and ask](https://github.com/quietui/scurry/issues)!
