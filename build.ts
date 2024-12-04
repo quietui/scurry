@@ -78,7 +78,7 @@ async function generateContent(tsFiles: string[], fileConfigs: FileConfig[]): Pr
     'src/manifest.ts': {
       prefix: fileConfigs.find(c => c.path === 'src/manifest.ts')?.prefix ?? '',
       suffix: fileConfigs.find(c => c.path === 'src/manifest.ts')?.suffix ?? '',
-      content: `const animations = ${JSON.stringify(animations, null, 2)};\n\nexport default animations;`
+      content: `export const animations = ${JSON.stringify(animations, null, 2)};`
     },
     'src/index.ts': {
       prefix: fileConfigs.find(c => c.path === 'src/index.ts')?.prefix ?? '',

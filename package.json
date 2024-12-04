@@ -18,6 +18,7 @@
     "./dist/animations/*": "./dist/animations/*"
   },
   "scripts": {
+    "start": "concurrently \"tsx watch build.js\" \"tsc --watch --excludeFiles src/index.ts,src/manifest.ts,dist/**/*\" \"live-server --quiet --open=/sandbox/index.html --mount=/sandbox/dist:dist\"",
     "build": "tsx build.ts && tsc",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
@@ -48,6 +49,8 @@
   "devDependencies": {
     "@types/node": "^22.10.1",
     "@types/prettier": "^3.0.0",
+    "concurrently": "^9.1.0",
+    "live-server": "^1.2.2",
     "npm-check-updates": "^17.1.11",
     "prettier": "^3.4.1",
     "prettier-plugin-css-order": "^2.1.2",

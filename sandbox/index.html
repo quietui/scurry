@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scurry Sandbox</title>
+    <style>
+      :root {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        background-color: light-dark(#f0f3fe, #13141b);
+        color: light-dark(#494a53, #e1e3ee);
+        color-scheme: light dark;
+        line-height: 1.5;
+        font: 16px sans-serif;
+      }
+
+      *,
+      *:before,
+      *:after {
+        box-sizing: inherit;
+      }
+
+      body {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+      }
+
+      h1 {
+        margin-block-start: 0;
+        text-align: center;
+      }
+
+      .controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.5rem 1rem;
+        gap: 1rem;
+      }
+
+      .controls:nth-child(3) {
+        margin-block-end: 1rem;
+      }
+
+      .radios {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+      }
+
+      .text-field {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        width: fit-content;
+        gap: 0.5rem;
+      }
+
+      button {
+        min-height: 44px;
+        padding: 0.5rem 1.5rem;
+        transform: translateY(1px);
+        border: 1px solid #787acf;
+        border-radius: 0.5rem;
+        background-color: #787acf;
+        color: light-dark(#f0f3fe, white);
+        font: inherit;
+        line-height: inherit;
+        cursor: pointer;
+        transition: 200ms translate ease;
+
+        &:active {
+          translate: 0 1px;
+        }
+
+        &:focus {
+          outline: none;
+        }
+
+        &:focus-visible {
+          outline: solid 2px #787acf;
+          outline-offset: -1px;
+        }
+      }
+
+      input[type='number'],
+      input[type='text'],
+      select {
+        min-height: 44px;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid light-dark(#808392, #82848d);
+        border-radius: 0.5rem;
+        background-color: transparent;
+        color: light-dark(#494a53, #e1e3ee);
+        font: inherit;
+        line-height: inherit;
+
+        &:focus {
+          outline: none;
+        }
+
+        &:focus-visible {
+          outline: solid 2px #787acf;
+          outline-offset: -1px;
+        }
+      }
+
+      /* Select-specific styles */
+      select {
+        appearance: none;
+        padding-right: 2rem;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a4a6b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+        background-position: right 12px center;
+        background-size: 16px;
+        background-repeat: no-repeat;
+        cursor: pointer;
+      }
+
+      input[type='radio'] {
+        appearance: none;
+        position: relative;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin: 0.25rem;
+        border: 1px solid light-dark(#808392, #82848d);
+        border-radius: 50%;
+        background-color: transparent;
+        cursor: pointer;
+
+        &:checked {
+          border-color: light-dark(#808392, #82848d);
+
+          &::after {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0.55rem;
+            height: 0.55rem;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background-color: #787acf;
+            content: '';
+          }
+        }
+
+        &:focus {
+          outline: none;
+        }
+
+        &:focus-visible {
+          outline: solid 2px #787acf;
+          outline-offset: -1px;
+        }
+      }
+
+      label {
+        font-size: 0.9375em;
+
+        &:has(input[type='radio']) {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 0.25rem;
+        }
+      }
+
+      .example {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        min-height: fit-content;
+        max-height: calc(100vh - 260px);
+        margin-inline: auto;
+        padding: 2rem;
+        gap: 2rem;
+        border-radius: 1rem;
+        outline: dashed 2px light-dark(#b7bac4, #494a53);
+      }
+
+      #box {
+        width: 150px;
+        height: 150px;
+        border-radius: 0.5rem;
+        background-color: #787acf;
+
+        &.long {
+          width: 400px;
+          height: 100px;
+        }
+
+        &.tall {
+          width: 100px;
+          height: 400px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Scurry Sandbox</h1>
+
+    <div class="controls">
+      <div class="text-field">
+        <label for="animation">Animation</label>
+        <select id="animation"></select>
+      </div>
+
+      <div class="text-field">
+        <label for="duration">Duration</label>
+        <input id="duration" type="number" min="0" max="5000" value="500" />
+      </div>
+
+      <button id="play" type="button">Play</button>
+    </div>
+
+    <div class="controls">
+      <div id="shapes" class="radios">
+        <label><input type="radio" name="shape" value="square" checked />Square</label>
+        <label><input type="radio" name="shape" value="long" />Long</label>
+        <label><input type="radio" name="shape" value="tall" />Tall</label>
+      </div>
+    </div>
+
+    <div class="example">
+      <div id="box" hidden></div>
+    </div>
+
+    <script type="module">
+      import { animations } from '/dist/manifest.js';
+
+      const animationSelect = document.getElementById('animation');
+      const shapesContainer = document.getElementById('shapes');
+      const durationInput = document.getElementById('duration');
+      const playButton = document.getElementById('play');
+      const box = document.getElementById('box');
+
+      async function runAnimation() {
+        const option = animationSelect.selectedOptions[0];
+        const name = option.value;
+        const path = option.dataset.path;
+        const duration = parseInt(durationInput.value);
+
+        localStorage.setItem('animation', name);
+
+        // Cancel existing animations
+        box.getAnimations().forEach(animation => animation.cancel());
+
+        if (name && path) {
+          const animation = await import(`/${path}`);
+          const { enter, exit } = animation[name]();
+
+          box.hidden = false;
+
+          try {
+            // Animate in
+            await box.animate(enter.keyframes, {
+              easing: enter.easing,
+              duration
+            }).finished;
+
+            // Wait a moment
+            await box.animate([{ opacity: '1' }], { duration: 500 }).finished;
+
+            // Animate out
+            await box.animate(exit.keyframes, {
+              easing: exit.easing,
+              duration
+            }).finished;
+
+            box.hidden = true;
+          } catch {
+            // Suppress aborted animation errors
+          }
+        }
+      }
+
+      function setShape(shape) {
+        if (shape) {
+          box.classList.toggle('long', shape === 'long');
+          box.classList.toggle('tall', shape === 'tall');
+          localStorage.setItem('shape', shape);
+        }
+      }
+
+      // Add options from the manifest
+      for (const [name, { description, path }] of Object.entries(animations)) {
+        const option = document.createElement('option');
+        option.value = name;
+        option.dataset.path = path;
+        option.textContent = name;
+        animationSelect.appendChild(option);
+      }
+
+      // Play
+      playButton.addEventListener('click', () => {
+        runAnimation();
+      });
+
+      // Change animation
+      animationSelect.addEventListener('input', () => {
+        runAnimation();
+      });
+
+      // Change duration
+      durationInput.addEventListener('change', () => {
+        localStorage.setItem('duration', String(durationInput.value));
+        runAnimation();
+      });
+
+      // Change shape
+      shapesContainer.addEventListener('input', event => {
+        const radio = event.target.closest('input[type="radio"]');
+        setShape(radio.value);
+        runAnimation();
+      });
+
+      // Restore selection
+      const lastSelection = localStorage.getItem('animation');
+      if (lastSelection) {
+        const option = animationSelect.querySelector(`option[value="${lastSelection}"]`);
+        if (option) option.selected = true;
+      }
+
+      // Restore duration
+      const lastDuration = localStorage.getItem('duration');
+      if (lastDuration) durationInput.value = lastDuration;
+
+      // Restore shape
+      const lastShape = localStorage.getItem('shape');
+      if (lastShape) {
+        const radio = shapesContainer.querySelector(`input[type="radio"][value="${lastShape}"]`);
+        if (radio) {
+          radio.checked = true;
+          setShape(radio.value);
+        }
+      }
+    </script>
+  </body>
+</html>

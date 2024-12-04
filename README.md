@@ -71,3 +71,25 @@ for (const [name, details] of Object.entries(animations)) {
 Yes! This library is designed to be expanded so pull requests are welcome. All submissions will be vetted for quality to make sure the animations are a good fit for the library. Even the best animations may require a few iteration cycles. Unfortunately, not all animations will be accepted.
 
 If you're not sure if an animation makes sense for this library, [open an issue and ask](https://github.com/quietui/scurry/issues)!
+
+## Developing
+
+The developer sandbox will automatically run the project in watch mode, spin up an HTTP server, and open a browser to help you test animations more easily.
+
+To spin up the sandbox for development, run:
+
+```sh
+npm start
+```
+
+To build the project, run:
+
+```sh
+npm run build
+```
+
+To update dependencies, run:
+
+```sh
+npm run check-updates
+```

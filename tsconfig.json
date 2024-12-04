@@ -4,45 +4,38 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "target": "ES2022",
-    
+
     // Output Settings
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    
+
     // Type Checking
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
-    
+
     // Module Resolution
     "esModuleInterop": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
-    
+
     // Library Settings
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    
+
     // Advanced
     "removeComments": false,
     "preserveConstEnums": true,
     "allowSyntheticDefaultImports": true,
-    
+
     // Path Settings
     "rootDir": "./src",
     "baseUrl": "./src"
   },
-  "include": [
-    "src/**/*"
-, "animate.ts"  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "**/*.test.ts",
-    "**/*.spec.ts"
-  ]
+  "include": ["src/**/*", "animate.ts"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]
 }
