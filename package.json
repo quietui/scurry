@@ -1,7 +1,7 @@
 {
   "name": "@quietui/scurry",
   "description": "Animations, easings, and utilities for use with the Web Animations API.",
-  "version": "2.0.0",
+  "version": "3.1.0",
   "homepage": "https://github.com/quietui/scurry",
   "author": "Cory LaViska",
   "license": "MIT",
@@ -9,15 +9,6 @@
   "module": "dist/index.js",
   "type": "module",
   "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./animations/*": "./animations/*",
-    "./easings/*": "./easings/*",
-    "./utilities/*": "./utilities/*"
-  },
   "scripts": {
     "build": "tsc",
     "clean": "rimraf dist",

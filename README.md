@@ -18,6 +18,13 @@ To import an animation:
 import { tada } from '@quietui/scurry';
 ```
 
+**Note:** if you're importing directly from a browser, use the full path to prevent the entire library from loading. Make sure to replace `@quiet/scurry` with the path to the library, either a CDN or a local folder.
+
+```js
+import { tada } from '/path/to/scurry/dist/animations/tada.js';
+import { easeInOut } from '/path/to/scurry/dist/easings/ease-in-out.js';
+```
+
 <details>
   <summary>Show all available animations</summary>
   <ul>
@@ -160,106 +167,22 @@ import { easeInOut } from '@quietui/scurry';
   </ul>  
 </details>
 
-## Animation functions
-
-Two animation functions are included in the library for convenience.
-
-### `animate()`
-
-Runs a Web Animation on an element, canceling any existing animations immediately. Returns a promise that resolves when the animation finishes or is canceled.
-
-To import this function:
-
-```ts
-import { animate } from '@quietui/scurry';
-```
-
-Example:
-
-```html
-<div id="box" style="display: block; width: 100px; height: 100px; background: tomato; margin: 2rem;"></div>
-
-<script type="module">
-  import { animate, flip, easeInSine } from '@quietui/scurry';
-
-  const box = document.getElementById('box');
-
-  animate(box, flip, {
-    duration: 1500,
-    iterations: Infinity,
-    easing: easeInSine
-  }).then(() => {
-    // The animation has finished
-  });
-</script>
-```
-
-### `animateWithClass()`
-
-Applies a class to the specified element to animate it. The class is removed after the animation finishes or is canceled, then the promise resolves. If applying the class doesn't trigger an animation, the promise resolves immediately.
-
-To import this function:
-
-```ts
-import { animateWithClass } from '@quietui/scurry';
-```
-
-Example:
-
-```html
-<div id="box" style="display: block; width: 100px; height: 100px; background: tomato; margin: 2rem;"></div>
-
-<style>
-  /* Define a class that triggers an animation */
-  .bounce {
-    animation: bounce 0.5s;
-    animation-timing-function: cubic-bezier(0.2, 0.65, 0.6, 1.35);
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-  }
-
-  @keyframes bounce {
-    from {
-      transform: translateY(0px);
-    }
-    to {
-      transform: translateY(-20px);
-    }
-  }
-</style>
-
-<script type="module">
-  import { animateWithClass } from '@quietui/scurry';
-
-  const box = document.getElementById('box');
-
-  animateWithClass(box, 'bounce').then(() => {
-    // The animation has finished
-  });
-</script>
-```
-
 ## Using with the Web Animations API
 
 To animate an element directly with the Web Animations API:
 
-```html
-<div id="box" style="display: block; width: 100px; height: 100px; background: tomato; margin: 2rem;"></div>
+```js
+import { flip, easeInSine } from '@quietui/scurry';
 
-<script type="module">
-  import { flip } from '@quietui/scurry';
-  import { easeInSine } from '@quietui/scurry';
+const el = document.getElementById('my-element');
 
-  const box = document.getElementById('box');
-
-  box.animate(flip, {
-    duration: 1500,
-    iterations: Infinity,
-    easing: easeInSine
-  });
-</script>
+el.animate(flip, {
+  duration: 1500,
+  iterations: Infinity,
+  easing: easeInSine
+});
 ```
 
 ## Attribution
 
-- Animations are based on the great [Animate.css](https://animate.style/) library.
+- Animations are based on the timeless [Animate.css](https://animate.style/) library.
