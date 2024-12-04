@@ -26,7 +26,7 @@ import { elevator } from '/dist/animations/elevator.js';
 import { glitch } from '/dist/animations/glitch.js';
 ```
 
-To see a complete list of animations, refer to [`src/animation-names.ts`](https://github.com/quietui/scurry/blob/main/src/animation-names.ts). If you want to use the public CDN, you can [browse the animations here](https://www.jsdelivr.com/package/npm/@quietui/scurry?tab=files&path=dist%2Fanimations).
+To see a complete list of animations, refer to [`src/animations`](https://github.com/quietui/scurry/tree/main/src/animations). If you want to use the public CDN, you can [browse the animations here](https://www.jsdelivr.com/package/npm/@quietui/scurry?tab=files&path=dist%2Fanimations).
 
 ## Enter and exit animations
 
