@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A bouncy animation that drops elements into place with natural physics. */
-export function gravity(_options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A bouncy animation that drops elements into place with natural physics. */
+export function gravity(_options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   return {
     enter: {
       keyframes: [

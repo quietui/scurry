@@ -15,10 +15,11 @@
       "import": "./dist/index.js"
     },
     "./dist/manifest.js": "./dist/manifest.js",
-    "./dist/animations/*": "./dist/animations/*"
+    "./dist/emphasis/*": "./dist/emphasis/*",
+    "./dist/transitions/*": "./dist/transitions/*"
   },
   "scripts": {
-    "start": "concurrently \"tsx watch build.js\" \"tsc --watch --excludeFiles src/index.ts,src/manifest.ts,dist/**/*\" \"live-server --quiet --open=/sandbox/index.html --mount=/sandbox/dist:dist\"",
+    "start": "npm run build && concurrently \"tsx watch build.js\" \"tsc --watch --excludeFiles src/index.ts,src/manifest.ts,dist/**/*\" \"live-server --quiet --open=/sandbox/index.html --mount=/sandbox/dist:dist --watch=./dist\"",
     "build": "tsx build.ts && tsc",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",

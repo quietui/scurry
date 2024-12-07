@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A sci-fi animation that warps elements through a dimensional gateway. */
-export function portal(_options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A sci-fi animation that warps elements through a dimensional gateway. */
+export function portal(_options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   return {
     enter: {
       keyframes: [

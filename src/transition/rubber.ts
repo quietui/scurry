@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A springy animation that stretches and squashes elements like elastic rubber. */
-export function rubber(_options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A springy animation that stretches and squashes elements like elastic rubber. */
+export function rubber(_options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   return {
     enter: {
       keyframes: [

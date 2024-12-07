@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A dramatic animation that makes elements burst into view with a bright, energetic effect. */
-export function explode(_options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A dramatic animation that makes elements burst into view with a bright, energetic effect. */
+export function explode(_options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   return {
     enter: {
       keyframes: [

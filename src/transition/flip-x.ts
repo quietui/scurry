@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A 3D animation that flips elements into view along their horizontal axis. */
-export function flipX(_options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A 3D animation that flips elements into view along their horizontal axis. */
+export function flipX(_options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   return {
     enter: {
       keyframes: [

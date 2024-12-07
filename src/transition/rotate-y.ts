@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A simple animation that rotates in and out vertically. */
-export function rotateY(options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A simple animation that rotates in and out vertically. */
+export function rotateY(options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   const rtl = options?.dir === 'rtl';
 
   return {

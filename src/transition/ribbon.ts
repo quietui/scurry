@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A graceful animation that unfurls elements like a flowing ribbon in 3D space. */
-export function ribbon(options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A graceful animation that unfurls elements like a flowing ribbon in 3D space. */
+export function ribbon(options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   const rtl = options?.dir === 'rtl';
 
   return {

@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A playful animation that renders an intentional glitch on the way in and out. */
-export function glitch(options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A playful animation that renders an intentional glitch on the way in and out. */
+export function glitch(options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   const rtl = options?.dir === 'rtl';
 
   return {

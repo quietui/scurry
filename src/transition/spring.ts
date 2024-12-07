@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A lively animation that bounces elements into place with springy physics. */
-export function spring(_options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A lively animation that bounces elements into place with springy physics. */
+export function spring(_options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   return {
     enter: {
       keyframes: [

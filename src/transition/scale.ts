@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A subtle animation that scales elements up from below with a gentle overshoot. */
-export function scale(_options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A subtle animation that scales elements up from below with a gentle overshoot. */
+export function scale(_options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   return {
     enter: {
       keyframes: [

@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A whirling animation that spirals elements through space like a twister. */
-export function tornado(options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A whirling animation that spirals elements through space like a twister. */
+export function tornado(options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   const rtl = options?.dir === 'rtl';
 
   return {

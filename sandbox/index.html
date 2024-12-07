@@ -9,7 +9,7 @@
         box-sizing: border-box;
         margin: 0;
         padding: 0;
-        background-color: light-dark(#f0f3fe, #13141b);
+        background-color: light-dark(#fff, #13141b);
         color: light-dark(#494a53, #e1e3ee);
         color-scheme: light dark;
         line-height: 1.5;
@@ -39,6 +39,10 @@
         justify-content: center;
         padding: 0.5rem 1rem;
         gap: 1rem;
+
+        &:has(.radios) {
+          gap: 4rem;
+        }
       }
 
       .controls:nth-child(3) {
@@ -210,7 +214,7 @@
 
       <div class="text-field">
         <label for="duration">Duration</label>
-        <input id="duration" type="number" min="0" max="5000" value="500" />
+        <input id="duration" type="number" min="0" max="5000" value="1000" />
       </div>
 
       <button id="play" type="button">Play</button>
@@ -222,10 +226,15 @@
         <label><input type="radio" name="shape" value="long" />Long</label>
         <label><input type="radio" name="shape" value="tall" />Tall</label>
       </div>
+
+      <div id="dir" class="radios">
+        <label><input type="radio" name="dir" value="ltr" checked />LTR</label>
+        <label><input type="radio" name="dir" value="rtl" />RTL</label>
+      </div>
     </div>
 
     <div class="example">
-      <div id="box" hidden></div>
+      <div id="box"></div>
     </div>
 
     <script type="module">
@@ -233,9 +242,11 @@
 
       const animationSelect = document.getElementById('animation');
       const shapesContainer = document.getElementById('shapes');
+      const dirContainer = document.getElementById('dir');
       const durationInput = document.getElementById('duration');
       const playButton = document.getElementById('play');
       const box = document.getElementById('box');
+      let directionality = 'ltr';
 
       async function runAnimation() {
         const option = animationSelect.selectedOptions[0];
@@ -250,27 +261,41 @@
 
         if (name && path) {
           const animation = await import(`/${path}`);
-          const { enter, exit } = animation[name]();
-
-          box.hidden = false;
 
           try {
-            // Animate in
-            await box.animate(enter.keyframes, {
-              easing: enter.easing,
-              duration
-            }).finished;
+            if (option.dataset.type === 'transition') {
+              // Animate transitions in, then out
+              const { enter, exit } = animation[name]({ dir: directionality });
 
-            // Wait a moment
-            await box.animate([{ opacity: '1' }], { duration: 500 }).finished;
+              box.hidden = false;
 
-            // Animate out
-            await box.animate(exit.keyframes, {
-              easing: exit.easing,
-              duration
-            }).finished;
+              // Animate in
+              await box.animate(enter.keyframes, {
+                easing: enter.easing,
+                duration
+              }).finished;
 
-            box.hidden = true;
+              // Wait a moment
+              await box.animate([{ opacity: '1' }], { duration: 500 }).finished;
+
+              // Animate out
+              await box.animate(exit.keyframes, {
+                easing: exit.easing,
+                duration
+              }).finished;
+
+              box.hidden = true;
+            } else {
+              // Animate other types
+              const { keyframes, easing } = animation[name]({ dir: directionality });
+              console.log(animation);
+              box.hidden = false;
+
+              await box.animate(keyframes, {
+                easing,
+                duration
+              }).finished;
+            }
           } catch {
             // Suppress aborted animation errors
           }
@@ -285,13 +310,37 @@
         }
       }
 
-      // Add options from the manifest
-      for (const [name, { description, path }] of Object.entries(animations)) {
-        const option = document.createElement('option');
-        option.value = name;
-        option.dataset.path = path;
-        option.textContent = name;
-        animationSelect.appendChild(option);
+      function setDir(dir) {
+        if (dir) {
+          directionality = dir === 'rtl' ? 'rtl' : 'ltr';
+          localStorage.setItem('dir', dir === 'rtl' ? 'rtl' : 'ltr');
+        }
+      }
+
+      // Group animations by type
+      const groups = new Map();
+      for (const animation of animations) {
+        if (!groups.has(animation.type)) {
+          groups.set(animation.type, []);
+        }
+        groups.get(animation.type).push(animation);
+      }
+
+      // Create groups and options
+      for (const [type, typeAnimations] of groups) {
+        const group = document.createElement('optgroup');
+        group.label = type;
+
+        for (const animation of typeAnimations) {
+          const option = document.createElement('option');
+          option.value = animation.name;
+          option.dataset.path = animation.path;
+          option.dataset.type = animation.type;
+          option.textContent = animation.name;
+          group.appendChild(option);
+        }
+
+        animationSelect.appendChild(group);
       }
 
       // Play
@@ -317,6 +366,13 @@
         runAnimation();
       });
 
+      // Change dir
+      dirContainer.addEventListener('input', event => {
+        const radio = event.target.closest('input[type="radio"]');
+        setDir(radio.value);
+        runAnimation();
+      });
+
       // Restore selection
       const lastSelection = localStorage.getItem('animation');
       if (lastSelection) {
@@ -335,6 +391,16 @@
         if (radio) {
           radio.checked = true;
           setShape(radio.value);
+        }
+      }
+
+      // Restore dir
+      const lastDir = localStorage.getItem('dir');
+      if (lastDir) {
+        const radio = dirContainer.querySelector(`input[type="radio"][value="${lastDir}"]`);
+        if (radio) {
+          radio.checked = true;
+          setDir(radio.value);
         }
       }
     </script>

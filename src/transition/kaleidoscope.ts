@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A mesmerizing animation that spins elements into view with prismatic color shifts. */
-export function kaleidoscope(_options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A mesmerizing animation that spins elements into view with prismatic color shifts. */
+export function kaleidoscope(_options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   return {
     enter: {
       keyframes: [

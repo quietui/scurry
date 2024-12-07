@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A celestial animation that swirls elements into position along a circular path. */
-export function orbit(_options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A celestial animation that swirls elements into position along a circular path. */
+export function orbit(_options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   return {
     enter: {
       keyframes: [

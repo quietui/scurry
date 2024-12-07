@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A telescopic animation that zooms elements from a distant perspective. */
-export function telescope(_options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A telescopic animation that zooms elements from a distant perspective. */
+export function telescope(_options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   return {
     enter: {
       keyframes: [

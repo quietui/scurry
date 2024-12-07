@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A playful animation that makes elements hop into view like a jumping frog. */
-export function frog(_options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A playful animation that makes elements hop into view like a jumping frog. */
+export function frog(_options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   return {
     enter: {
       keyframes: [

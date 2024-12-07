@@ -1,7 +1,7 @@
-import type { QuietAnimation, QuietAnimationOptions } from '../types.js';
+import type { QuietAnimationOptions, QuietTransitionAnimation } from '../types.js';
 
-/** A simple animation that slides in and out vertically. */
-export function slideY(_options?: Partial<QuietAnimationOptions>): QuietAnimation {
+/** @description A simple animation that slides in and out vertically. */
+export function slideY(_options?: Partial<QuietAnimationOptions>): QuietTransitionAnimation {
   return {
     enter: {
       keyframes: [

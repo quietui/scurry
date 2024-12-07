@@ -1,37 +1,28 @@
 import { readdir, readFile, writeFile } from 'fs/promises';
 import path from 'path';
 
-/**
- * Configuration for file generation including path and optional prefix/suffix content
- */
 interface FileConfig {
   path: string;
   prefix?: string;
   suffix?: string;
 }
 
-interface FileOutput {
-  prefix: string;
-  content: string;
-  suffix: string;
-}
-
 interface AnimationEntry {
+  name: string;
   path: string;
   description?: string;
+  type: 'emphasis' | 'transition';
 }
 
-/**
- * Extracts JSDoc description from file content
- */
 async function getDescription(filePath: string): Promise<string | undefined> {
   try {
     const content = await readFile(filePath, 'utf-8');
-    const match = content.match(/\/\*\*([\s\S]*?)\*\//);
+    const match = content.match(/@description\s+([\s\S]*?)(?=\s*@|\s*\*\/)/);
     return match
       ? match[1]
-          .trim()
-          .replace(/\s*\*\s*/g, ' ')
+          .split('\n')
+          .map(line => line.replace(/^\s*\*\s?/, ''))
+          .join(' ')
           .trim()
       : undefined;
   } catch (error) {
@@ -40,71 +31,65 @@ async function getDescription(filePath: string): Promise<string | undefined> {
   }
 }
 
-/**
- * Converts kebab-case to camelCase
- */
 const toCamelCase = (str: string): string =>
   str
     .split('-')
     .map((part, i) => (i === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)))
     .join('');
 
-/**
- * Generates manifest and index files from animation files
- */
-async function generateContent(tsFiles: string[], fileConfigs: FileConfig[]): Promise<void> {
-  const animationsDir = './src/animations';
+async function processDirectory(dirPath: string, type: AnimationEntry['type']): Promise<AnimationEntry[]> {
+  const files = await readdir(dirPath);
+  const tsFiles = files.filter(file => file.endsWith('.ts'));
 
-  // Generate animations object with metadata
-  const animations = Object.fromEntries(
-    await Promise.all(
-      tsFiles.map(async (file): Promise<[string, AnimationEntry]> => {
-        const filePath = path.join(animationsDir, file);
-        const description = await getDescription(filePath);
-        const baseName = file.replace('.ts', '');
+  return Promise.all(
+    tsFiles.map(async (file): Promise<AnimationEntry> => {
+      const filePath = path.join(dirPath, file);
+      const description = await getDescription(filePath);
+      const baseName = file.replace('.ts', '');
+      const name = toCamelCase(baseName);
 
-        return [
-          toCamelCase(baseName),
-          {
-            path: `dist/animations/${baseName}.js`,
-            ...(description && { description })
-          }
-        ];
-      })
-    )
+      return {
+        name,
+        path: `dist/${type}/${baseName}.js`,
+        type,
+        ...(description && { description })
+      };
+    })
   );
+}
 
-  const files: Record<string, FileOutput> = {
-    'src/manifest.ts': {
-      prefix: fileConfigs.find(c => c.path === 'src/manifest.ts')?.prefix ?? '',
-      suffix: fileConfigs.find(c => c.path === 'src/manifest.ts')?.suffix ?? '',
-      content: `export const animations = ${JSON.stringify(animations, null, 2)};`
-    },
-    'src/index.ts': {
-      prefix: fileConfigs.find(c => c.path === 'src/index.ts')?.prefix ?? '',
-      suffix: fileConfigs.find(c => c.path === 'src/index.ts')?.suffix ?? '',
-      content: generateIndexContent(animations)
-    }
+async function generateContent(fileConfigs: FileConfig[]): Promise<void> {
+  const directories = {
+    emphasis: './src/emphasis',
+    transition: './src/transition'
   };
 
-  // Write all files concurrently
+  const animations = (
+    await Promise.all([
+      processDirectory(directories.emphasis, 'emphasis'),
+      processDirectory(directories.transition, 'transition')
+    ])
+  ).flat();
+
+  const manifestContent = `export const animations = ${JSON.stringify(animations, null, 2)};`;
+
+  const files: Record<string, string> = {
+    'src/manifest.ts': `${fileConfigs.find(c => c.path === 'src/manifest.ts')?.prefix ?? ''}${manifestContent}`,
+    'src/index.ts': `${fileConfigs.find(c => c.path === 'src/index.ts')?.prefix ?? ''}${generateIndexContent(animations)}`
+  };
+
   await Promise.all(
-    Object.entries(files).map(([filePath, { prefix, content, suffix }]) =>
-      writeFile(filePath, `${prefix}${content}${suffix}`).catch(error =>
-        console.error(`Error writing ${filePath}:`, error)
-      )
+    Object.entries(files).map(([filePath, content]) =>
+      writeFile(filePath, content).catch(error => console.error(`Error writing ${filePath}:`, error))
     )
   );
 }
 
-/**
- * Generates the content for index.ts file
- */
-function generateIndexContent(animations: Record<string, AnimationEntry>): string {
-  const exports = Object.keys(animations)
-    .map(name => {
+function generateIndexContent(animations: AnimationEntry[]): string {
+  const exports = animations
+    .map(({ name, type }) => {
       const kebabName = name.replace(/([A-Z])/g, c => `-${c.toLowerCase()}`);
-      return `export { ${name} } from './animations/${kebabName}.js';`;
+      return `export { ${name} } from './${type}/${kebabName}.js';`;
     })
     .join('\n');
 
@@ -115,16 +100,10 @@ export * from './types.js';
 ${exports}`;
 }
 
-/**
- * Main function to generate manifest and index files
- */
 async function generateFiles(): Promise<void> {
   try {
-    const files = await readdir('./src/animations');
-    const tsFiles = files.filter(file => file.endsWith('.ts'));
-
-    await generateContent(tsFiles, [
-      { path: 'src/manifest.ts', prefix: '// Animation names - auto-generated\n\n' },
+    await generateContent([
+      { path: 'src/manifest.ts', prefix: '// Animation manifest - auto-generated\n\n' },
       { path: 'src/index.ts', prefix: '// Index exports - auto-generated\n\n' }
     ]);
   } catch (error) {

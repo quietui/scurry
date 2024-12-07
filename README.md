@@ -1,6 +1,8 @@
 # Scurry Animations
 
-Scurry provides unique animations designed for use with the [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API). These animations are ideal for enter and exit transitions, but work great in many other scenarios as well. Each animation ships with enter and exit keyframes and recommended easings for each transition.
+Scurry provides unique animations designed for use with the [Web Animations API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API).
+
+Transitional animations are ideal for adding and removing objects, as they feature custom keyframes and easings for entering and exiting. Also included are several emphasis animations that are great for drawing attention to in-place objects.
 
 Built for [Quiet UI](https://quietui.org/).
 
@@ -15,22 +17,44 @@ npm install @quietui/scurry
 **To import an animation using a bundler:**
 
 ```js
-import { drift, elevator, glitch } from '@quietui/scurry';
+import { bounce, tornado } from '@quietui/scurry';
 ```
 
 **To import an animation using a browser,** use the full path for each animation. Importing `index.js` will force the browser to load every animation in the library. Make sure to adjust the path to wherever the library is being hosted.
 
 ```js
-import { drift } from '/dist/animations/drift.js';
-import { elevator } from '/dist/animations/elevator.js';
-import { glitch } from '/dist/animations/glitch.js';
+import { bounce } from '/dist/emphasis/drift.js';
+import { tornado } from '/dist/transitions/drift.js';
 ```
 
 To see a complete list of animations, refer to [`src/animations`](https://github.com/quietui/scurry/tree/main/src/animations). If you want to use the public CDN, you can [browse the animations here](https://www.jsdelivr.com/package/npm/@quietui/scurry?tab=files&path=dist%2Fanimations).
 
-## Enter and exit animations
+## Using animations
 
-To get the keyframes and easings for each animation, call the function you just imported. An optional argument lets you choose the animation's directionality. To apply the animation, use the [`Element.animate()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/animate) method.
+To get the keyframes and easings for each emphasis animation, call the imported function. An optional argument lets you choose the animation's directionality. To apply the animation, use the [`Element.animate()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/animate) method.
+
+### Emphasis
+
+Emphasis animations return a `QuietAnimation` object with `keyframes` and `easing` properties.
+
+```ts
+import { bounce } from '@quietui/scurry';
+
+const box = document.getElementById('box');
+const { keyframes, easing } = bounce({ dir: 'ltr' });
+
+// Animate it
+await box.animate(keyframes, {
+  easing,
+  duration: 1500
+}).finished;
+
+// The animations have finished!
+```
+
+### Transitions
+
+Transition animations return a `QuietTransitionAnimation` object that has an `enter` and `exit` property, both of which contain `keyframes` and `easing` properties.
 
 ```ts
 import { tornado } from '@quietui/scurry';
@@ -55,15 +79,31 @@ await box.animate(exit.keyframes, {
 
 ## The animation manifest
 
-In some cases, it might be useful to get a list of all animations provided by the library. You can use the manifest to get a list of all animations.
+In some cases, it might be useful to get a list of all animations provided by the library without importing them all. You can use the manifest to get a list of all animations, grouped by category.
 
 ```ts
 import { animations } from '@quietui/scurry/dist/manifest.js';
 
-// Log every available animation
-for (const [name, details] of Object.entries(animations)) {
-  console.log(name, details.description, details.path);
-}
+// List all animations
+animations.forEach(animation => {
+  console.log(
+    // The name of the animation
+    animation.name,
+    // A description of the animation
+    animation.description,
+    // The type of animation
+    animation.type,
+    // The path to the animation, relative to the library's root
+    animation.path
+  );
+});
+
+// List only emphasis animations
+animations
+  .filter(animation => animation.type === 'emphasis')
+  .forEach(animation => {
+    console.log(animation.name);
+  });
 ```
 
 ## Do you accept PRs?
@@ -93,3 +133,5 @@ To update dependencies, run:
 ```sh
 npm run check-updates
 ```
+
+To create a new animation, add it to `src/emphasis` or `src/transition` and restart the dev server. The index and manifest are updated automatically at build time.

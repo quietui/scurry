@@ -1,16 +1,17 @@
-/** The interface for Scurry animations. */
+/** The interface for Quiet animations. */
 export interface QuietAnimation {
-  /** The animation and timing function to use when animating in. */
-  enter: {
-    keyframes: Keyframe[];
-    easing: string;
-  };
+  /** The keyframes to use for the animation. */
+  keyframes: Keyframe[];
+  /** The recommended easing function for this animation. */
+  easing: string;
+}
 
-  /** The animation and timing function to use when animating out. */
-  exit: {
-    keyframes: Keyframe[];
-    easing: string;
-  };
+/** Transition animations that feature custom enter and exit animations. */
+export interface QuietTransitionAnimation {
+  /** The animation to use when entering. */
+  enter: QuietAnimation;
+  /** The animation to use when exiting. */
+  exit: QuietAnimation;
 }
 
 /* Animation options */
