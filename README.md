@@ -4,8 +4,6 @@ Scurry provides unique animations designed for use with the [Web Animations API]
 
 Transitional animations are ideal for adding and removing objects, as they feature custom keyframes and easings for entering and exiting. Also included are several emphasis animations that are great for drawing attention to in-place objects.
 
-Built for [Quiet UI](https://quietui.org/).
-
 ## Installation
 
 ```bash
